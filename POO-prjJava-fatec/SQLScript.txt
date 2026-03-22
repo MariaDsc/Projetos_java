@@ -1,0 +1,52 @@
+CREATE TABLE tbConsulta
+(   cod_cons number(12),
+    data_cons varchar2(10),
+    valor_cons number(10,2),
+    cpfmedico_cons varchar2(15),
+    cpfpaciente_cons varchar2(15),
+    CONSTRAINT pk_consulta PRIMARY KEY(cod_cons),
+    CONSTRAINT fk_medico FOREIGN KEY(cpfmedico_cons) REFERENCES tbMedico(cpf_med),
+    CONSTRAINT fk_paciente FOREIGN KEY(cpfpaciente_cons) REFERENCES tbPaciente(cpf_pac)
+);
+
+CREATE TABLE tbMedico
+(   cpf_med varchar2(15),
+    nome_med varchar2(60),
+    end_med varchar2(60),
+    tel_med varchar2(15),
+    crm_med varchar2(10),
+    espec_med varchar2(20),
+    CONSTRAINT pk_medico PRIMARY KEY(cpf_med)
+);
+
+CREATE TABLE tbPaciente
+(   cpf_pac varchar2(15),
+    nome_pac varchar2(60),
+    end_pac varchar2(60),
+    tel_pac varchar2(15), 
+    dtNasc_pac date,
+    altura_pac number(6,2),
+    peso_pac number(6,2), 
+    CONSTRAINT pk_paciente PRIMARY KEY(cpf_pac)
+);
+
+CREATE TABLE tbExame
+(   cod_ex number(12),
+    desc_ex varchar2(20),
+    data_ex varchar2(10),
+    hora_ex varchar2(10),
+    valor_ex number(10,2),
+    codconsulta_ex number(12),
+    CONSTRAINT pk_exame PRIMARY KEY(cod_ex),
+    CONSTRAINT fk_exame FOREIGN KEY(codconsulta_ex) REFERENCES tbConsulta(cod_cons)
+);
+
+CREATE TABLE tbMedicacao
+(   nome_medic varchar2(20),
+    dosagem_medic varchar2(10),
+    qtdeDias_medic number(5),
+    codconsulta_medic number(12),
+    CONSTRAINT pk_medicacao PRIMARY KEY(nome_medic),
+    CONSTRAINT fk_medicacao FOREIGN KEY(codconsulta_medic) REFERENCES tbConsulta(cod_cons)
+);
+
